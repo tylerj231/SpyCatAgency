@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, Boolean, ForeignKey, inspect
 from sqlalchemy.orm import DeclarativeBase, relationship
 
 from src.database.config import engine, SessionLocal
@@ -13,7 +13,7 @@ class Cat(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    years_of_experience = Column(Integer, nullable=False)
+    experience = Column(Integer, nullable=False)
     breed = Column(String, nullable=False)
     salary = Column(Float, nullable=False)
 
@@ -57,3 +57,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+def object_to_dict(obj) -> dict:
+    return {c.key: getattr(obj, c.key) for c in inspect(obj).mapper.column_attrs}
