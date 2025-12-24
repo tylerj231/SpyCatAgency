@@ -2,10 +2,10 @@ from fastapi import Depends
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
-
 from src.models.mission import MissionModel, MissionFilter, MissionUpdate, MissionCreate
 from src.database.database import get_db, object_to_dict, Mission, Target
 from src.exceptions.mission_not_found_exception import MissionNotFoundException
+from src.exceptions.cannot_delete_mission_exception import CanNotDeleteMissionException
 from src.exceptions.mission_complete_exception import (
     MissionCompleteException,
 )
@@ -46,6 +46,7 @@ def retrieve_missions(db: Session = Depends(get_db)) -> list[MissionModel]:
     """
     missions = db.query(Mission).all()
     missions = [object_to_dict(mission) for mission in missions]
+
     return [MissionModel.model_validate(mission) for mission in missions]
 
 
@@ -116,6 +117,9 @@ def remove_mission(mission_id: int, db: Session = Depends(get_db)) -> None:
 
     if not mission:
         raise MissionNotFoundException
+
+    if mission.cat_id:
+        raise CanNotDeleteMissionException
 
     db.delete(mission)
     db.commit()

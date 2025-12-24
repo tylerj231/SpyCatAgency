@@ -15,8 +15,9 @@ class MissionModel(BaseModel):
     id: int = Field(
         description="The id of the mission",
     )
-    cat_id: int = Field(
+    cat_id: Optional[int] = Field(
         description="The id of the cat assigned to the mission",
+        default=None,
         examples=[1],
     )
     targets: list[TargetModel] = Field(
@@ -48,8 +49,9 @@ class MissionCreate(BaseModel):
     Raises: ValueError if targets are invalid.
     """
 
-    cat_id: int = Field(
+    cat_id: Optional[int] = Field(
         description="The id of the cat assigned to the mission",
+        default=None,
         examples=[1],
     )
     targets: list[TargetCreate] = Field(

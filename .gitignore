@@ -69,3 +69,5 @@ poetry.toml
 
 # LSP config files
 pyrightconfig.json
+
+database.db

@@ -1,13 +1,13 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from database.database import get_db, Target, Mission
-from exceptions.mission_complete_exception import (
+from src.database.database import get_db, Target, Mission
+from src.models.target import TargetUpdate
+from src.exceptions.mission_complete_exception import (
     MissionCompleteException,
     MissionCompleteExceptionTarget,
 )
-from exceptions.target_not_found_exception import TargetNotFoundException
-from models.target import TargetUpdate
+from src.exceptions.target_not_found_exception import TargetNotFoundException
 
 
 def update_target(
