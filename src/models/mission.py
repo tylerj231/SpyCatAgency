@@ -6,6 +6,9 @@ from src.models.target import TargetModel, TargetCreate
 
 
 class MissionModel(BaseModel):
+    """
+    Pydantic Schema for a Mission.
+    """
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -40,6 +43,11 @@ class MissionModel(BaseModel):
 
 
 class MissionCreate(BaseModel):
+    """
+    Pydantic Schema to create a Mission.
+    Raises: ValueError if targets are invalid.
+    """
+
     cat_id: int = Field(
         description="The id of the cat assigned to the mission",
         examples=[1],
@@ -65,6 +73,10 @@ class MissionCreate(BaseModel):
 
 
 class MissionUpdate(BaseModel):
+    """
+    Pydantic Schema to update a Mission.
+    """
+
     complete: Optional[bool] = Field(
         description="Mission completion status",
         default=None,
@@ -76,6 +88,10 @@ class MissionUpdate(BaseModel):
 
 
 class MissionFilter(BaseModel):
+    """
+    Pydantic Schema to use as a filter for a Mission.
+    """
+
     mission_id: Optional[int] = Field(
         description="The id of the mission",
         default=None,

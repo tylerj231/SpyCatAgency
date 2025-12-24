@@ -4,6 +4,9 @@ from pydantic import BaseModel, Field, ConfigDict
 
 
 class TargetModel(BaseModel):
+    """
+    Pydantic Schema for a mission's target.
+    """
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -29,6 +32,10 @@ class TargetModel(BaseModel):
 
 
 class TargetCreate(BaseModel):
+    """
+    Pydantic Schema to create a new target for a mission.
+    """
+
     name: str = Field(
         description="The name of the target",
     )
@@ -45,5 +52,9 @@ class TargetCreate(BaseModel):
 
 
 class TargetUpdate(BaseModel):
+    """
+    Pydantic Schema to update a target for a mission.
+    """
+
     notes: Optional[str] = Field(default=None)
     complete: Optional[bool] = Field(default=None)

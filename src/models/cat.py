@@ -7,6 +7,9 @@ from src.exceptions.invalid_cat_breed_exception import InvalidCatBreedException
 
 
 class CatModel(BaseModel):
+    """
+    Pydantic Schema for Spy Cat.
+    """
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -34,6 +37,11 @@ class CatModel(BaseModel):
 
 
 class CatCreate(BaseModel):
+    """
+    Pydantic Schema to create a Spy Cat.
+    Raises: InvalidCatBreedException if cat breed is not valid.
+    """
+
     name: str = Field(
         description="The name of the cat",
         examples=["mr.Paws"],
@@ -70,6 +78,9 @@ class CatCreate(BaseModel):
 
 
 class CatUpdate(BaseModel):
+    """
+    Pydantic Schema to update a Spy Cat's salary.
+    """
 
     salary: Optional[float] = Field(
         description="The salary of the cat",
@@ -78,4 +89,8 @@ class CatUpdate(BaseModel):
 
 
 class CatDelete(BaseModel):
+    """
+    Pydantic Schema to delete a Spy Cat.
+    """
+
     id: int = Field(description="The id of the cat to delete")

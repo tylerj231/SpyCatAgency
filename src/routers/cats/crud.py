@@ -1,6 +1,5 @@
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException, Depends, status
 from sqlalchemy.orm import Session
-from starlette import status
 
 from src.database.database import Cat, object_to_dict
 from src.database.database import get_db
@@ -9,6 +8,13 @@ from src.exceptions.spy_cat_not_found_exception import SpyCatNotFoundException
 
 
 def create_spy_cat(cat: CatCreate, db: Session = Depends(get_db)) -> CatModel:
+    """
+    Create a new spy cat in the database.
+    :param cat:
+    :param db:
+    :return:
+    """
+
     cat_dict = cat.model_dump()
     cat_record = Cat(**cat_dict)
     db.add(cat_record)
@@ -19,6 +25,11 @@ def create_spy_cat(cat: CatCreate, db: Session = Depends(get_db)) -> CatModel:
 
 
 def query_cats(db: Session = Depends(get_db)) -> list[CatModel] | None:
+    """
+    Query all cats in the database.
+    :param db:
+    :return:
+    """
     cats = db.query(Cat).all()
     if not cats:
         raise HTTPException(
@@ -29,6 +40,12 @@ def query_cats(db: Session = Depends(get_db)) -> list[CatModel] | None:
 
 
 def query_cat(cat_id: int, db: Session = Depends(get_db)) -> CatModel | None:
+    """
+    Query a specific spy cat.
+    :param cat_id:
+    :param db:
+    :return:
+    """
     cat = db.query(Cat).filter(Cat.id == cat_id).first()
     if not cat:
         raise SpyCatNotFoundException(cat_id)
@@ -40,6 +57,13 @@ def query_cat(cat_id: int, db: Session = Depends(get_db)) -> CatModel | None:
 def update_cat_salary(
     cat_id: int, cat_salary: CatUpdate, db: Session = Depends(get_db)
 ) -> None:
+    """
+    Update a spy cat's salary.
+    :param cat_id:
+    :param cat_salary:
+    :param db:
+    :return:
+    """
     cat = db.query(Cat).filter(Cat.id == cat_id).first()
     if not cat:
         raise SpyCatNotFoundException(cat_id)

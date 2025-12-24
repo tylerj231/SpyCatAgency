@@ -15,6 +15,16 @@ def update_target(
     target: TargetUpdate,
     db: Session = Depends(get_db),
 ) -> None:
+    """
+    Update a specific mission's target
+    :param target_id:
+    :param target:
+    :param db:
+    :raises TargetNotFoundException
+    :raises MissionCompleteException
+    :raises MissionCompleteExceptionTarget
+    :return:
+    """
     target_record = db.query(Target).filter(Target.id == target_id).first()
 
     if not target_record:

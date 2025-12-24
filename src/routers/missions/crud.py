@@ -14,6 +14,12 @@ from src.exceptions.mission_complete_exception import (
 def create_mission(
     mission: MissionCreate, db: Session = Depends(get_db)
 ) -> MissionModel:
+    """
+    Create a mission in the database.
+    :param mission:
+    :param db:
+    :return:
+    """
     mission_dict = mission.model_dump()
     targets = mission_dict.pop("targets", [])
 
@@ -33,6 +39,11 @@ def create_mission(
 
 
 def retrieve_missions(db: Session = Depends(get_db)) -> list[MissionModel]:
+    """
+    Get all missions from the database.
+    :param db:
+    :return:
+    """
     missions = db.query(Mission).all()
     missions = [object_to_dict(mission) for mission in missions]
     return [MissionModel.model_validate(mission) for mission in missions]
@@ -41,6 +52,12 @@ def retrieve_missions(db: Session = Depends(get_db)) -> list[MissionModel]:
 def retrieve_mission(
     filters: MissionFilter, db: Session = Depends(get_db)
 ) -> MissionModel | None:
+    """
+    Get a specific mission from the database.
+    :param filters:
+    :param db:
+    :return:
+    """
     cat_id = filters.cat_id
     mission_id = filters.mission_id
 
@@ -62,6 +79,13 @@ def retrieve_mission(
 def update_mission(
     mission_id: int, mission_update: MissionUpdate, db: Session = Depends(get_db)
 ) -> None:
+    """
+    Update a specific mission in the database.
+    :param mission_id:
+    :param mission_update:
+    :param db:
+    :return:
+    """
     mission = db.query(Mission).filter(Mission.id == mission_id).first()
 
     if not mission:
@@ -82,6 +106,12 @@ def update_mission(
 
 
 def remove_mission(mission_id: int, db: Session = Depends(get_db)) -> None:
+    """
+    Remove a specific mission from the database.
+    :param mission_id:
+    :param db:
+    :return:
+    """
     mission = db.query(Mission).filter(Mission.id == mission_id).first()
 
     if not mission:

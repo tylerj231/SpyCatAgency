@@ -14,4 +14,11 @@ target_router = APIRouter(
 def patch_target(
     target_id: int, target: TargetUpdate, db: Session = Depends(get_db)
 ) -> None:
+    """
+    Endpoint for updating mission's targets
+    :param target_id:
+    :param target:
+    :param db:
+    :return:
+    """
     update_target(target_id, target, db)
