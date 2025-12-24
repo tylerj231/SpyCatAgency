@@ -1,8 +1,10 @@
 from fastapi import FastAPI
-from src.routers.cats.cat import cats_router
+
+from src.routers.routers import base_router
+
 
 app = FastAPI()
-app.include_router(cats_router)
+app.include_router(base_router)
 
 
 @app.get("/")

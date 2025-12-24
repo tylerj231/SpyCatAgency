@@ -1,12 +1,39 @@
 from typing import Optional
 
 import httpx
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
-from src.exceptions.InvalidCatBreedError import InvalidCatBreedException
+from src.exceptions.invalid_cat_breed_exception import InvalidCatBreedException
 
 
 class CatModel(BaseModel):
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: Optional[int] = Field(
+        description="The id of the cat",
+        default=None,
+    )
+    name: str = Field(
+        description="The name of the cat",
+        examples=["mr.Paws"],
+    )
+    experience: int = Field(
+        description="Years of experience",
+        examples=[1],
+    )
+    breed: str = Field(
+        description="The breed of the cat",
+        examples=["Persian"],
+    )
+    salary: float = Field(
+        description="The salary of the cat",
+        examples=[1500.0],
+        ge=0,
+    )
+
+
+class CatCreate(BaseModel):
     name: str = Field(
         description="The name of the cat",
         examples=["mr.Paws"],
@@ -40,10 +67,6 @@ class CatModel(BaseModel):
         if breed not in breeds:
             raise InvalidCatBreedException(breed)
         return breed
-
-
-class CatCreate(CatModel):
-    pass
 
 
 class CatUpdate(BaseModel):

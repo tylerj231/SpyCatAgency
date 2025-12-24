@@ -13,11 +13,9 @@ def create_spy_cat(cat: CatCreate, db: Session = Depends(get_db)) -> CatModel:
     cat_record = Cat(**cat_dict)
     db.add(cat_record)
     db.commit()
-    db.add(cat_record)
-    db.commit()
     db.refresh(cat_record)
 
-    return CatModel.model_validate(cat_dict)
+    return CatModel.model_validate(cat_record)
 
 
 def query_cats(db: Session = Depends(get_db)) -> list[CatModel] | None:

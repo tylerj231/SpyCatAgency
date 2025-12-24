@@ -10,7 +10,7 @@ from src.routers.cats.crud import (
     update_cat_salary,
 )
 
-cats_router = APIRouter()
+cats_router = APIRouter(tags=["Cats"])
 
 
 @cats_router.post(
@@ -28,13 +28,13 @@ def get_cats(db: Session = Depends(get_db)) -> list[CatModel] | None:
 
 
 @cats_router.get(
-    "/spy-cat/{cat_id}", response_model=CatModel, status_code=status.HTTP_200_OK
+    "/spy-cats/{cat_id}", response_model=CatModel, status_code=status.HTTP_200_OK
 )
 def get_cat(cat_id: int, db: Session = Depends(get_db)) -> CatModel:
     return query_cat(cat_id, db)
 
 
-@cats_router.patch("/spy-cat/{cat_id}", status_code=status.HTTP_204_NO_CONTENT)
+@cats_router.patch("/spy-cats/{cat_id}", status_code=status.HTTP_204_NO_CONTENT)
 def patch_cat(
     cat_id: int, cat_salary: CatUpdate, db: Session = Depends(get_db)
 ) -> None:
