@@ -1,7 +1,7 @@
 from fastapi import HTTPException, Depends, status
 from sqlalchemy.orm import Session
 
-from src.database.database import Cat, object_to_dict
+from src.database.database import Cat
 from src.database.database import get_db
 from src.models.cat import CatModel, CatCreate, CatUpdate
 from src.exceptions.spy_cat_not_found_exception import SpyCatNotFoundException
@@ -50,7 +50,6 @@ def query_cat(cat_id: int, db: Session = Depends(get_db)) -> CatModel | None:
     if not cat:
         raise SpyCatNotFoundException(cat_id)
 
-    cat = object_to_dict(cat)
     return CatModel.model_validate(cat)
 
 

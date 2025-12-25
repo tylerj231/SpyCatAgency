@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, Float, Boolean, ForeignKey, inspect
-from sqlalchemy.exc import NoInspectionAvailable
 from sqlalchemy.orm import DeclarativeBase, relationship
 
 from src.database.config import engine, SessionLocal
@@ -58,11 +57,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-def object_to_dict(obj) -> dict:
-    try:
-        return {c.key: getattr(obj, c.key) for c in inspect(obj).mapper.column_attrs}
-
-    except (NoInspectionAvailable, AttributeError, TypeError):
-        return {}
